@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 208" role="img" aria-label="Card Tree mark">
+  <title>Card Tree mark</title>
+  <defs>
+    <clipPath id="ctL"><rect x="0" y="0" width="60" height="208"/></clipPath>
+    <clipPath id="ctR"><rect x="60" y="0" width="60" height="208"/></clipPath>
+  </defs>
+  <path d="M 60 0 L 120 72 L 120 136 L 60 208 L 0 136 L 0 72 Z M 51 37.32 L 17 78.2 L 17 129.8 L 51 170.68 Z M 69 37.32 L 97.15 71.16 L 69 105 Z M 69 135 L 103 94.12 L 103 129.8 L 69 170.68 Z" fill="#1D593F" fill-rule="evenodd" clip-path="url(#ctL)"/>
+  <path d="M 60 0 L 120 72 L 120 136 L 60 208 L 0 136 L 0 72 Z M 51 37.32 L 17 78.2 L 17 129.8 L 51 170.68 Z M 69 37.32 L 97.15 71.16 L 69 105 Z M 69 135 L 103 94.12 L 103 129.8 L 69 170.68 Z" fill="#54935A" fill-rule="evenodd" clip-path="url(#ctR)"/>
+</svg>
