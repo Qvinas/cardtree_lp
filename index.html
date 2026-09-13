@@ -1,76 +1,410 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-PT">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#002919">
-<title>CardTree</title>
+<title>Card Tree — cartas colecionáveis</title>
+<meta name="description" content="Estamos a construir a Card Tree, em Portugal. Deixa o teu email e avisamos quando abrir.">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cardtree.pt/">
+<meta property="og:title" content="Card Tree">
+<meta property="og:description" content="Estamos a construir a Card Tree, em Portugal.">
+<meta property="og:image" content="https://cardtree.pt/assets/og-share-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://cardtree.pt/">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
-:root{--deep:#002919;--deep2:#073b29;--leaf:#1D593F;--mint:#75B393;--soft:#54935A;--white:#F7F8F4}
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden}
-body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--deep);color:var(--white)}
-.scene{position:relative;width:100%;height:100%;overflow:hidden;background:var(--deep);isolation:isolate}
-.ambient{position:absolute;inset:-20%;background:
-  radial-gradient(45% 45% at 17% 23%,rgba(117,179,147,.20),transparent 68%),
-  radial-gradient(42% 42% at 83% 76%,rgba(84,147,90,.19),transparent 68%),
-  radial-gradient(28% 28% at 52% 50%,rgba(255,255,255,.045),transparent 72%);
-  filter:blur(8px);animation:ambient 22s ease-in-out infinite alternate;will-change:transform}
-.blob{position:absolute;border-radius:50%;filter:blur(32px);mix-blend-mode:screen;opacity:.45;will-change:transform}
-.blob.a{width:42vmax;height:42vmax;left:-14vmax;top:-12vmax;background:rgba(117,179,147,.18);animation:blobA 18s ease-in-out infinite alternate}
-.blob.b{width:48vmax;height:48vmax;right:-18vmax;bottom:-18vmax;background:rgba(84,147,90,.17);animation:blobB 24s ease-in-out infinite alternate}
-.grid{position:absolute;inset:-10%;background-image:linear-gradient(rgba(247,248,244,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(247,248,244,.035) 1px,transparent 1px);background-size:78px 78px;mask-image:radial-gradient(circle at center,#000 20%,transparent 75%);opacity:.22;transform:rotate(-8deg) scale(1.15);animation:gridMove 28s linear infinite}
-.ring{position:absolute;left:50%;top:50%;width:min(82vw,1000px);aspect-ratio:1;transform:translate(-50%,-50%);border:1px solid rgba(247,248,244,.08);border-radius:50%;animation:spin 38s linear infinite}
-.ring:before,.ring:after{content:"";position:absolute;border:1px solid rgba(117,179,147,.075);border-radius:50%}
-.ring:before{inset:9%}.ring:after{inset:23%}
-.grain{position:absolute;inset:0;opacity:.04;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
-.top{position:absolute;top:28px;left:34px;right:34px;display:flex;align-items:center;justify-content:space-between;z-index:5}
-.kicker{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(247,248,244,.50)}
-.hero{position:absolute;inset:0;display:grid;place-items:center;z-index:4}
-.brand{display:flex;flex-direction:column;align-items:center;gap:26px;transform:translate3d(0,0,0);will-change:transform;filter:drop-shadow(0 28px 65px rgba(0,0,0,.15))}
-.icon{width:clamp(86px,9vw,132px);height:auto;display:block}
-.wordmark{width:clamp(230px,26vw,390px);height:auto;display:block;filter:brightness(0) invert(1)}
-.note{position:absolute;left:50%;bottom:8.5%;transform:translateX(-50%);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(247,248,244,.33);white-space:nowrap}
-.footer{position:absolute;left:34px;bottom:28px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,248,244,.26);z-index:5}
-@keyframes ambient{0%{transform:translate3d(-2%,1%,0) scale(1)}100%{transform:translate3d(4%,-3%,0) scale(1.09)}}
-@keyframes blobA{0%{transform:translate3d(0,0,0) scale(.9)}100%{transform:translate3d(13vw,10vh,0) scale(1.15)}}
-@keyframes blobB{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-10vw,-8vh,0) scale(.86)}}
-@keyframes gridMove{0%{transform:rotate(-8deg) translate3d(0,0,0) scale(1.15)}100%{transform:rotate(-8deg) translate3d(3%,2%,0) scale(1.15)}}
-@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-@media(max-width:700px){
-  .top{top:20px;left:20px;right:20px}.kicker{font-size:8px;letter-spacing:.20em}
-  .brand{gap:18px}.icon{width:82px}.wordmark{width:68vw;max-width:300px}.note{bottom:10%;font-size:8px;letter-spacing:.22em}.footer{left:20px;bottom:18px;font-size:8px}
-  .grid{background-size:52px 52px}
-}
-@media(prefers-reduced-motion:reduce){.ambient,.blob,.grid,.ring{animation:none}.brand{transform:none!important}}
+  :root{
+    --forest:#1D593F;
+    --forest-deep:#12402D;
+    --forest-ink:#07130D;
+    --leaf:#54935A;
+    --leaf-soft:#8FD6A0;
+    --paper:#F3F8F4;
+    --paper-warm:#FBFCFA;
+    --stone:#727473;
+    --card-ratio: 63 / 88;          /* proporção real de uma carta */
+    --pad: clamp(1.5rem, 5vw, 5rem);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0;
+    font-family:Poppins,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-weight:400;
+    color:var(--paper);
+    background:var(--forest-ink);
+    line-height:1.6;
+  }
+  a{ color:inherit; }
+  :focus-visible{
+    outline:2px solid var(--leaf-soft);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  /* ---------------------------------------------------------- herói */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    min-height:100svh;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    padding:var(--pad);
+    background:
+      radial-gradient(120% 90% at 88% 18%, var(--forest) 0%, var(--forest-deep) 48%, var(--forest-ink) 100%);
+    overflow:hidden;
+  }
+
+  .topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:1.5rem;
+    flex-wrap:wrap;
+    position:relative;
+    z-index:2;
+  }
+  .marca{
+    display:flex;
+    align-items:center;
+    gap:.7rem;
+    text-decoration:none;
+  }
+  .marca svg{ height:30px; width:auto; aspect-ratio:120/208; display:block; }
+  .marca span{
+    font-weight:500;
+    letter-spacing:.22em;
+    font-size:.86rem;
+  }
+  .topo a.mail{
+    font-size:.87rem;
+    color:var(--leaf-soft);
+    text-decoration:none;
+    border-bottom:1px solid rgba(143,214,160,.35);
+    padding-bottom:2px;
+  }
+  .topo a.mail:hover{ border-bottom-color:var(--leaf-soft); }
+
+  .corpo{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,.85fr);
+    align-items:center;
+    gap:clamp(2rem,6vw,5rem);
+    padding:clamp(2.5rem,7vh,5rem) 0;
+    position:relative;
+    z-index:2;
+  }
+
+  h1{
+    font-weight:500;
+    font-size:clamp(2.1rem, 5.4vw, 4rem);
+    line-height:1.08;
+    letter-spacing:-.022em;
+    margin:0 0 1.1rem;
+    max-width:14ch;
+  }
+  .sub{
+    margin:0 0 2.4rem;
+    max-width:46ch;
+    font-size:clamp(1rem,1.5vw,1.12rem);
+    color:rgba(243,248,244,.76);
+  }
+
+  /* ---------------------------------------------------------- formulário */
+  form{ max-width:27rem; }
+  .campo{
+    display:flex;
+    gap:.55rem;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:12px;
+    padding:.42rem;
+    transition:border-color .18s ease, background .18s ease;
+  }
+  .campo:focus-within{
+    border-color:var(--leaf-soft);
+    background:rgba(255,255,255,.11);
+  }
+  .campo input{
+    flex:1;
+    min-width:0;
+    background:none;
+    border:0;
+    color:var(--paper);
+    font:inherit;
+    font-size:.97rem;
+    padding:.72rem .85rem;
+  }
+  .campo input::placeholder{ color:rgba(243,248,244,.45); }
+  .campo input:focus{ outline:none; }
+  .campo button{
+    flex:none;
+    background:var(--leaf);
+    color:#06210F;
+    border:0;
+    border-radius:9px;
+    font:inherit;
+    font-weight:600;
+    font-size:.93rem;
+    padding:.72rem 1.35rem;
+    cursor:pointer;
+    transition:background .18s ease;
+  }
+  .campo button:hover{ background:var(--leaf-soft); }
+  .nota{
+    margin:.85rem 0 0;
+    font-size:.8rem;
+    color:rgba(243,248,244,.5);
+  }
+  .estado{
+    margin:.85rem 0 0;
+    font-size:.88rem;
+    min-height:1.3em;
+  }
+  .estado.ok{ color:var(--leaf-soft); }
+  .estado.erro{ color:#FFB4A2; }
+
+  /* ---------------------------------------------------------- leque */
+  .leque{
+    position:relative;
+    display:grid;
+    place-items:center;
+    min-height:min(58vh,30rem);
+  }
+  .carta{
+    position:absolute;
+    width:clamp(10.5rem, 19vw, 16.5rem);
+    aspect-ratio:var(--card-ratio);
+    border-radius:calc(clamp(10.5rem,19vw,16.5rem) * .052);
+    transform-origin:50% 152%;
+    box-shadow:0 18px 40px -12px rgba(0,0,0,.55);
+  }
+  .verso{
+    background:var(--forest);
+    border:1px solid rgba(143,214,160,.22);
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+  }
+  /* moldura interior, como num verso de carta a sério */
+  .verso::before{
+    content:"";
+    position:absolute;
+    inset:7%;
+    border:1px solid rgba(143,214,160,.28);
+    border-radius:4px;
+  }
+  .verso svg{
+    width:32%;
+    height:auto;
+    aspect-ratio:120/208;
+    opacity:.62;
+  }
+  .frente{
+    background:linear-gradient(168deg, #FFFFFF 0%, var(--paper) 100%);
+    display:grid;
+    place-items:center;
+    gap:.9rem;
+    align-content:center;
+    border:1px solid rgba(0,0,0,.06);
+    box-shadow:0 26px 54px -14px rgba(0,0,0,.62);
+  }
+  .frente svg{ width:29%; height:auto; aspect-ratio:120/208; }
+  .frente b{
+    font-weight:500;
+    font-size:.66rem;
+    letter-spacing:.26em;
+    color:var(--forest);
+  }
+
+  /* posições do leque, da mais atrás para a da frente */
+  .c1{ transform:rotate(-26deg) translateY(-.2rem); }
+  .c2{ transform:rotate(-13deg) translateY(-.8rem); }
+  .c3{ transform:rotate(0deg)   translateY(-1.1rem); }
+  .c4{ transform:rotate(13deg)  translateY(-.8rem); }
+  .c5{ transform:rotate(5deg)   translateY(2.6rem) translateX(1rem); }
+
+  /* ---------------------------------------------------------- rodapé */
+  .rodape{
+    position:relative;
+    z-index:2;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:1.5rem;
+    flex-wrap:wrap;
+    padding-top:1.5rem;
+    border-top:1px solid rgba(255,255,255,.1);
+    font-size:.8rem;
+    color:rgba(243,248,244,.5);
+  }
+  .rodape p{ margin:0; }
+  .rodape a{ color:rgba(243,248,244,.72); text-decoration:none; }
+  .rodape a:hover{ color:var(--leaf-soft); }
+
+  /* ---------------------------------------------------------- responsivo */
+  @media (max-width:860px){
+    .corpo{
+      grid-template-columns:1fr;
+      gap:2.25rem;
+      padding-top:1.5rem;
+    }
+    /* o leque passa para cima, mas encolhe: o objetivo é o formulário
+       continuar visível sem ter de rolar num ecrã de 844 px de altura */
+    .leque{ order:-1; min-height:17rem; }
+    .carta{ width:clamp(8.5rem,33vw,11rem); }
+    .carta{ border-radius:calc(clamp(8.5rem,33vw,11rem) * .052); }
+    h1{ max-width:18ch; }
+    .sub{ margin-bottom:1.9rem; }
+  }
+  @media (max-width:430px){
+    .campo{ flex-direction:column; }
+    .campo button{ width:100%; }
+  }
+
+  /* ---------------------------------------------------------- movimento */
+  /* Um único momento: as cartas são distribuídas ao carregar. Depois, quietas. */
+  @media (prefers-reduced-motion:no-preference){
+    .carta{
+      animation:dar .72s cubic-bezier(.22,.9,.3,1) backwards;
+    }
+    .c1{ animation-delay:.05s; }
+    .c2{ animation-delay:.13s; }
+    .c3{ animation-delay:.21s; }
+    .c4{ animation-delay:.29s; }
+    .c5{ animation-delay:.4s; }
+    @keyframes dar{
+      from{
+        opacity:0;
+        transform:translateY(3.2rem) rotate(0deg) scale(.94);
+      }
+    }
+  }
 </style>
 </head>
 <body>
-<main class="scene" id="scene">
-  <div class="ambient"></div>
-  <div class="blob a"></div><div class="blob b"></div>
-  <div class="grid"></div><div class="ring"></div><div class="grain"></div>
-  <div class="top"><div class="kicker">CardTree</div><div class="kicker">TCG logistics</div></div>
-  <section class="hero" aria-label="CardTree">
-    <div class="brand" id="brand">
-      <img class="icon" src="cardtree_mark_fullcolour.svg" alt="CardTree icon">
-      <img class="wordmark" src="cardtree_wordmark.svg" alt="CardTree wordmark">
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <symbol id="marca" viewBox="0 0 120 208">
+    <path d="M 60 0 L 120 72 L 120 136 L 60 208 L 0 136 L 0 72 Z M 51 37.32 L 17 78.2 L 17 129.8 L 51 170.68 Z M 69 37.32 L 97.15 71.16 L 69 105 Z M 69 135 L 103 94.12 L 103 129.8 L 69 170.68 Z"
+          fill="currentColor" fill-rule="evenodd"/>
+  </symbol>
+</svg>
+
+<main class="hero">
+
+  <header class="topo">
+    <a class="marca" href="/" aria-label="Card Tree, página inicial">
+      <svg aria-hidden="true" style="color:var(--paper)"><use href="#marca"/></svg>
+      <span>CARD TREE</span>
+    </a>
+    <a class="mail" href="mailto:info@cardtree.pt">info@cardtree.pt</a>
+  </header>
+
+  <div class="corpo">
+    <div>
+      <h1>Uma nova casa para cartas colecionáveis.</h1>
+      <p class="sub">
+        Estamos a construir a Card Tree, em Portugal. Ainda não há nada para
+        mostrar, mas quando abrirmos queremos que sejas dos primeiros a saber.
+      </p>
+
+      <form id="aviso" novalidate>
+        <div class="campo">
+          <label for="email" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">O teu email</label>
+          <input id="email" name="email" type="email" inputmode="email"
+                 autocomplete="email" placeholder="o.teu@email.pt" required>
+          <button type="submit">Avisem-me</button>
+        </div>
+        <p class="nota">Um email quando abrirmos. Mais nenhum.</p>
+        <p class="estado" id="estado" role="status" aria-live="polite"></p>
+      </form>
     </div>
-    <div class="note">The Future of Card Trading</div>
-  </section>
-  <!-- <div class="note">Cards · Movement · Precision</div> -->
-  <div class="footer">© <span id="year"></span> CardTree</div>
+
+    <div class="leque" aria-hidden="true">
+      <div class="carta verso c1"><svg style="color:var(--leaf-soft)"><use href="#marca"/></svg></div>
+      <div class="carta verso c2"><svg style="color:var(--leaf-soft)"><use href="#marca"/></svg></div>
+      <div class="carta verso c3"><svg style="color:var(--leaf-soft)"><use href="#marca"/></svg></div>
+      <div class="carta verso c4"><svg style="color:var(--leaf-soft)"><use href="#marca"/></svg></div>
+      <div class="carta frente c5">
+        <svg style="color:var(--forest)"><use href="#marca"/></svg>
+        <b>CARD TREE</b>
+      </div>
+    </div>
+  </div>
+
+  <footer class="rodape">
+    <p>© <span id="ano">2026</span> Card Tree. Portugal.</p>
+    <p><a href="mailto:info@cardtree.pt">info@cardtree.pt</a></p>
+  </footer>
+
 </main>
+
 <script>
-const scene=document.getElementById('scene');
-const brand=document.getElementById('brand');
-/* scene.addEventListener('pointermove',e=>{
- const x=(e.clientX/innerWidth-.5)*2;
- const y=(e.clientY/innerHeight-.5)*2;
- brand.style.transform=`translate3d(${x*10}px,${y*8}px,0)`;
-}); */
-scene.addEventListener('pointerleave',()=>brand.style.transform='translate3d(0,0,0)');
-document.getElementById('year').textContent=new Date().getFullYear();
+  document.getElementById("ano").textContent = new Date().getFullYear();
+
+  // Endpoint de recolha de emails. Enquanto estiver vazio, o formulário
+  // abre o cliente de email em vez de fingir que gravou alguma coisa.
+  var ENDPOINT = "";
+
+  var form = document.getElementById("aviso");
+  var input = document.getElementById("email");
+  var estado = document.getElementById("estado");
+
+  function diz(msg, classe) {
+    estado.textContent = msg;
+    estado.className = "estado " + (classe || "");
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = input.value.trim();
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      diz("Esse email não parece estar completo.", "erro");
+      input.focus();
+      return;
+    }
+
+    if (!ENDPOINT) {
+      window.location.href =
+        "mailto:info@cardtree.pt?subject=" +
+        encodeURIComponent("Avisem-me quando abrirem") +
+        "&body=" + encodeURIComponent(email);
+      diz("Abrimos o teu email para enviares o pedido.", "ok");
+      return;
+    }
+
+    var botao = form.querySelector("button");
+    botao.disabled = true;
+    diz("A enviar…");
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ email: email })
+    })
+    .then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      form.reset();
+      diz("Ficou registado. Falamos quando abrirmos.", "ok");
+    })
+    .catch(function () {
+      diz("Não deu para registar. Escreve-nos para info@cardtree.pt.", "erro");
+    })
+    .finally(function () { botao.disabled = false; });
+  });
 </script>
+
 </body>
 </html>
